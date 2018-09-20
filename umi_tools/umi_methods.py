@@ -1486,7 +1486,12 @@ class get_bundles:
                 else:
                     umi, cell = "", ""
             else:
-                umi, cell = self.barcode_getter(read)
+                try:
+                    umi, cell = self.barcode_getter(read)
+                except KeyError:
+                    self.read_events['Read skipped, no tag'] += 1
+                    continue
+
 
             key = (key, cell)
             self.update_dicts(read, pos, key, umi)
